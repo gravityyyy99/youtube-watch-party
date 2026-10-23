@@ -477,6 +477,6 @@ How this project maps to the brief:
 
 <div align="center">
 
-Built as a full-stack internship assignment.
+Built as a full-stack internship assignment. Released under the [MIT License](LICENSE).
 
 </div>
