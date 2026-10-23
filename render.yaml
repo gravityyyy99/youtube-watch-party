@@ -1,0 +1,18 @@
+# Render Blueprint: one web service that builds the React app and runs the Express + Socket.IO server.
+# Use it via Render dashboard -> New -> Blueprint, or copy the commands below into a manual Web Service.
+services:
+  - type: web
+    name: youtube-watch-party
+    runtime: node
+    plan: free
+    # Installs server + client dependencies (including devDependencies, which Vite needs
+    # even though Render sets NODE_ENV=production) and builds both.
+    buildCommand: npm run build
+    # Runs server/src/index.js, which also serves client/dist.
+    startCommand: npm start
+    # Render pings this; the server answers {"ok":true,...}.
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # PORT is provided by Render automatically; the server reads process.env.PORT.

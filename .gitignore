@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.env
+.DS_Store
+
+# private study notes: kept on my computer, not on GitHub
+INTERVIEW_PREP.md
