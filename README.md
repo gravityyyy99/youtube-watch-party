@@ -264,7 +264,6 @@ Here is how I approached the build, and the reasoning behind the choices that ma
 | Everyone's page suddenly showed "Room not found" and the room was gone | The server restarted (a Render redeploy after a `git push` does this). Rooms live in memory, so a restart clears all of them | A clear "This room has ended" screen with a button to start a new room, a safety net so one unexpected error can't crash the server, and a longer reconnect grace period. Auto-Deploy can be switched off in Render before a demo |
 | The first reaction emoji was clipped on a phone | The reaction row had no side margin in the mobile layout | Added the missing margin (found while taking the screenshots above) |
 | Wording mismatch ("Participant" vs "Viewer") and no chat line when someone was removed | Found during the final test run | One label everywhere; a "was removed" line in chat |
-| After converting from TypeScript to JavaScript the server wouldn't start | ES modules need file extensions on imports and have no `__dirname` | Imports end in `.js`; `__dirname` is built from `import.meta.url` |
 
 ---
 
