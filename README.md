@@ -5,7 +5,7 @@
 **Watch YouTube together, perfectly in sync.**
 Create a room, share the link, and everyone sees the same video at the same second, with roles, requests, live chat and emoji reactions.
 
-[![Live demo](https://img.shields.io/badge/Live_demo-open_the_app-ff0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube-watch-party-dloc.onrender.com)
+[![Live demo](https://img.shields.io/badge/Live_demo-open_the_app-ff0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube-watch-party-htos.onrender.com)
 
 ![React](https://img.shields.io/badge/React_18-20232a?logo=react&logoColor=61dafb)
 ![Vite](https://img.shields.io/badge/Vite-646cff?logo=vite&logoColor=white)
@@ -23,7 +23,7 @@ Create a room, share the link, and everyone sees the same video at the same seco
 
 </div>
 
-**Live URL:** https://youtube-watch-party-dloc.onrender.com
+**Live URL:** https://youtube-watch-party-htos.onrender.com
 *(The free Render plan sleeps when idle, so the very first visit can take up to a minute to wake the server.)*
 
 ---
