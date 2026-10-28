@@ -339,6 +339,8 @@ npm start       # serves everything on http://localhost:4000
 | `CLIENT_DIST` | `client/dist` | Folder with the built frontend. |
 | `RECONNECT_GRACE_MS` | `30000` | How long a disconnected user keeps their seat (the tests set it low). |
 | `VITE_SERVER_URL` | `http://localhost:4000` | Where the Vite dev proxy sends API and socket traffic. |
+| `VITE_BACKEND_URL` | empty | Build-time, Vercel only: the separately hosted backend URL. Empty = same origin. |
+| `CLIENT_ORIGIN` | empty | Backend only: allowed frontend origin(s), comma-separated, enabling CORS for Vercel. |
 
 No secrets are needed.
 
@@ -389,6 +391,22 @@ The whole app is **one Render web service**; [`render.yaml`](render.yaml) holds 
 Notes:
 - Render redeploys automatically on every push to `main`. A deploy restarts the server, which ends all open rooms.
 - **Free plan:** the service sleeps after about 15 minutes with no visitors and takes about a minute to wake. A free uptime monitor that opens `/healthz` every few minutes keeps it awake.
+
+### Alternative: frontend on Vercel, backend elsewhere
+
+Vercel runs short-lived serverless functions and cannot hold WebSocket connections, so the Socket.IO server **cannot** run there. Instead, split the app in two:
+
+**1. Backend** (Railway, Koyeb, Fly.io, or any host that allows long-running Node servers and WebSockets)
+- Deploy the repo root. Build: `npm run build`. Start: `npm start`. Health check: `/healthz`.
+- Set `CLIENT_ORIGIN` to your Vercel URL (comma-separate several), e.g. `https://my-watch-party.vercel.app`. Use no trailing slash.
+- Copy the backend's public URL (e.g. `https://watch-party.up.railway.app`).
+
+**2. Frontend on Vercel**
+- In Vercel: **Add New → Project**, import the repo, and set **Root Directory** to `client`. Vercel reads [`client/vercel.json`](client/vercel.json) (Vite build, output `dist`, and a rewrite so `/room/ABC123` works on refresh).
+- Add the environment variable `VITE_BACKEND_URL` = the backend URL from step 1 (no trailing slash), then **Deploy**.
+- If you add a custom domain later, add it to `CLIENT_ORIGIN` too.
+
+`VITE_BACKEND_URL` is read at build time, so redeploy the frontend after changing it. Leave it unset for the single-service Render setup.
 
 ---
 

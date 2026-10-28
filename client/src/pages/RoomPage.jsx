@@ -10,6 +10,7 @@ import ReactionOverlay from '../components/ReactionOverlay';
 import RequestForm from '../components/RequestForm';
 import { useToast } from '../components/Toasts';
 import { useRoom } from '../hooks/useRoom';
+import { serverUrl } from '../config';
 import { getStoredAvatar, getStoredUsername, socket, storeAvatar, storeUsername } from '../socket';
 
 import AvatarPicker from '../components/AvatarPicker';
@@ -32,7 +33,7 @@ export default function RoomPage() {
 
   useEffect(() => {
     let alive = true;
-    fetch(`/api/rooms/${encodeURIComponent(roomId)}`)
+    fetch(serverUrl(`/api/rooms/${encodeURIComponent(roomId)}`))
       .then((r) => r.json())
       .then((data) => alive && setExists(Boolean(data.exists)))
       .catch(() => alive && setExists(false));

@@ -1,8 +1,10 @@
 import { io } from 'socket.io-client';
+import { SERVER_URL } from './config';
 
 // One shared Socket.IO connection for the whole app. No URL means "same origin as the page"
-// (Vite proxies it in dev, Express serves it in production). We connect manually, when needed.
-export const socket = io({ autoConnect: false });
+// (Vite proxies it in dev, Express serves it in production); with VITE_BACKEND_URL set (Vercel) it
+// connects to that backend instead. We connect manually, when needed.
+export const socket = SERVER_URL ? io(SERVER_URL, { autoConnect: false }) : io({ autoConnect: false });
 
 // A random id that lives as long as this browser tab. Sent with join_room so the server can tell
 // "same person refreshed the page" from "a new person", and keep their seat and role.

@@ -19,8 +19,21 @@ const app = express();
 app.use(express.json());
 const httpServer = http.createServer(app);
 
-// Same origin in production (Express serves the frontend), and Vite proxies in dev, so no CORS needed.
-const io = new Server(httpServer);
+// Same origin on Render (Express serves the frontend) and in dev (Vite proxies), so no CORS needed.
+// When the frontend is hosted separately (Vercel), set CLIENT_ORIGIN to its address(es), comma-separated,
+// e.g. https://my-app.vercel.app. Unset = CORS stays off.
+const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN || '')
+  .split(',')
+  .map((o) => o.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+const io = new Server(httpServer, CLIENT_ORIGINS.length ? { cors: { origin: CLIENT_ORIGINS } } : {});
+if (CLIENT_ORIGINS.length) {
+  app.use('/api', (req, res, next) => {
+    if (CLIENT_ORIGINS.includes(req.headers.origin)) res.set('Access-Control-Allow-Origin', req.headers.origin);
+    res.set('Vary', 'Origin');
+    next();
+  });
+}
 const rooms = new RoomManager();
 new MessageHandler(io, rooms).register();
 
